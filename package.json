@@ -1,0 +1,19 @@
+{
+  "name": "cappuccino-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Selected modules from Cappuccino, a decision-alignment platform. Source-available for review; not licensed for reuse.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5",
+    "vitest": "^3.2.7"
+  }
+}

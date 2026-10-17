@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "esnext"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node"],
+    "paths": { "@/*": ["./*"] }
+  },
+  "include": ["lib/**/*.ts", "evals/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "excerpts"]
+}

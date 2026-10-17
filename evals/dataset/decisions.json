@@ -1,0 +1,156 @@
+{
+  "extraction": [
+    {
+      "id": "plainly-settled",
+      "team": "Platform",
+      "note": "The easy case. If this misses, nothing else matters.",
+      "text": "alice: we've gone back and forth on the store long enough\nalice: we're going with Postgres\nbob: agreed, I'll start on the schema",
+      "expect": [{ "statementContains": "postgres" }],
+      "decoys": []
+    },
+    {
+      "id": "settled-with-owner",
+      "team": "Payments",
+      "note": "Owner is named as accountable, not as the person typing.",
+      "text": "sam: settlement timing — where did we land?\ndana: it's decided, settlement runs in 4-hour batches. I own it.\nsam: good",
+      "expect": [{ "statementContains": "4-hour batches", "owner": "dana" }],
+      "decoys": []
+    },
+    {
+      "id": "settled-with-decision-date",
+      "team": "Ledger",
+      "note": "A decision date the text states outright. Must not be confused with the date the decision is ABOUT.",
+      "text": "Decision log — 2026-03-14\nDecided: the ledger migration happens after the December freeze.\nRationale: double-entry integrity at current volume.",
+      "expect": [
+        { "statementContains": "migration", "decidedAt": "2026-03-14" }
+      ],
+      "decoys": []
+    },
+    {
+      "id": "date-about-is-not-date-decided",
+      "team": "Growth",
+      "note": "The only date in the text is the thing decided, not when it was decided. decided_at must be null.",
+      "text": "priya: final answer, we ship the pricing page on November 12\nmark: locked",
+      "expect": [{ "statementContains": "november 12", "decidedAt": null }],
+      "decoys": []
+    },
+
+    {
+      "id": "question-only",
+      "team": "Platform",
+      "note": "DECOY. A question is not a decision, however confidently it is asked.",
+      "text": "alice: should we move the store to Postgres?\nbob: what would that cost us?\nalice: not sure yet, worth pricing out",
+      "expect": [],
+      "decoys": ["move the store to Postgres", "worth pricing out"]
+    },
+    {
+      "id": "proposal-under-discussion",
+      "team": "Growth",
+      "note": "DECOY. Hedged into non-commitment. 'might work' is the tell.",
+      "text": "priya: Thursday might work for the launch\nmark: maybe — depends on whether legal clears it\npriya: let's revisit Monday",
+      "expect": [],
+      "decoys": ["Thursday might work", "revisit Monday"]
+    },
+    {
+      "id": "opinion-not-decision",
+      "team": "Platform",
+      "note": "DECOY. A preference stated by one person is not a commitment by the team.",
+      "text": "bob: I think we should use Postgres, honestly\nbob: I'd rather not deal with another MySQL upgrade\nalice: noted",
+      "expect": [],
+      "decoys": ["I think we should use Postgres", "rather not deal with another MySQL"]
+    },
+    {
+      "id": "task-assignment-is-a-resolution",
+      "team": "Ledger",
+      "note": "DECOY, and the one most likely to be wrongly extracted. Who-and-by-when is a resolution; the register is about WHAT.",
+      "text": "dana: Sam, can you write the migration script by Friday?\nsam: yep, on it\ndana: thanks — assigning it to you in Jira",
+      "expect": [],
+      "decoys": ["write the migration script by Friday", "assigning it to you"]
+    },
+    {
+      "id": "leaning-towards",
+      "team": "Risk",
+      "note": "DECOY. Directional language that has not landed.",
+      "text": "kai: we're leaning towards the managed service\nkai: probably going that way but I want one more week on the numbers",
+      "expect": [],
+      "decoys": ["leaning towards the managed service", "probably going that way"]
+    },
+    {
+      "id": "nothing-here-at-all",
+      "team": "Support",
+      "note": "DECOY. Most text contains no decisions. An empty answer is the correct one.",
+      "text": "jo: three tickets about the export timing out\njo: all from the same customer\nlee: I'll take a look this afternoon",
+      "expect": [],
+      "decoys": ["three tickets about the export", "take a look this afternoon"]
+    },
+
+    {
+      "id": "reversed-in-thread",
+      "team": "Platform",
+      "note": "The reversal case. The FINAL decision is real; the one walked back is a decoy — extracting both would put a decision in the register that the team explicitly undid.",
+      "text": "alice: right, we're going with Postgres\nbob: hold on — the managed Postgres pricing just came back, it's 4x\nalice: ugh. ok, scrap that, we're staying on MySQL for now\nbob: agreed, staying on MySQL",
+      "expect": [{ "statementContains": "mysql" }],
+      "decoys": ["we're going with Postgres"]
+    },
+    {
+      "id": "one-real-among-decoys",
+      "team": "Payments",
+      "note": "The precision test. One settled decision buried in speculation.",
+      "text": "sam: could we batch settlement hourly?\ndana: maybe, I'd want to see the load\nsam: what if we did it overnight instead\ndana: I think overnight is worse for reconciliation\ndana: decided — settlement stays at 4-hour batches, we're not changing it this quarter\nsam: fine by me\nsam: should we revisit in Q2?\ndana: possibly",
+      "expect": [{ "statementContains": "4-hour" }],
+      "decoys": ["batch settlement hourly", "did it overnight", "revisit in Q2"]
+    },
+    {
+      "id": "two-decisions-one-thread",
+      "team": "Mobile",
+      "note": "Two genuinely separate settled decisions. Both must land, as two rows.",
+      "text": "rae: two things settled in standup\nrae: first, we're dropping Android 9 support in the next release\nrae: second, the redesign ships behind a flag, not to everyone at once\nlee: both noted",
+      "expect": [
+        { "statementContains": "android 9" },
+        { "statementContains": "flag" }
+      ],
+      "decoys": []
+    },
+    {
+      "id": "commitment-to-outside-party",
+      "team": "Sales",
+      "note": "A promise made to a customer is a commitment the company now has to keep — a decision by any reading.",
+      "text": "erin: confirmed to Northwind in writing today — SSO lands for them in June\nerin: that's locked, we can't move it now",
+      "expect": [{ "statementContains": "sso" }],
+      "decoys": []
+    }
+  ],
+
+  "dedup": [
+    {
+      "id": "same-decision-reworded",
+      "note": "The case the register exists for: one decision stated in two artifacts, in different words. Must collapse to one row with two sources.",
+      "texts": [
+        "dana: decided, settlement runs in 4-hour batches",
+        "meeting notes: we agreed settlement will be processed in four-hour batches"
+      ],
+      "team": "Payments",
+      "expectRows": 1
+    },
+    {
+      "id": "same-decision-verbatim",
+      "note": "A re-synced artifact restating the decision word for word.",
+      "texts": [
+        "alice: we're going with Postgres",
+        "alice: we're going with Postgres"
+      ],
+      "team": "Platform",
+      "expectRows": 1
+    },
+    {
+      "id": "different-decisions-stay-apart",
+      "note": "The failure mode in the other direction. Over-merging is worse than under-merging: it would hide a real decision behind an unrelated one.",
+      "texts": [
+        "rae: decided, we're dropping Android 9 support",
+        "rae: decided, the redesign ships behind a flag"
+      ],
+      "team": "Mobile",
+      "expectRows": 2
+    }
+  ]
+}
