@@ -24,13 +24,25 @@
 
 ---
 
-![Cappuccino dashboard: open conflicts, risk distribution, teams to align, and a timeline of the messages behind each finding](docs/images/dashboard.png)
+![Cappuccino's Conflicts view: a ranked list of cross-team conflicts, with the selected one explained in full, its severity, confidence and the teams involved](docs/images/conflicts.png)
 
 ## The problem
 
 Sales tells a customer that card issuing ships in September. Engineering's Jira says December. Compliance is adding a KYC step that Mobile is removing that same sprint. Every one of those statements was made in public, in Slack, a ticket or a meeting, and nobody connected them until the launch slipped.
 
 **Cappuccino reads where decisions actually get made, pulls out the commitments, and flags the ones that contradict each other.** Each finding comes with the exact quotes that prove it, the teams who need to talk, and a drafted message to get them talking.
+
+![The Evidence tab: the four Slack messages, from Payments, Ledger, Marketing and Sales, that together prove the conflict](docs/images/evidence.png)
+
+<details>
+<summary><strong>More: the landing page</strong></summary>
+<br>
+
+![Cappuccino landing page: "Catch conflicting plans before they cost a quarter."](docs/images/landing.png)
+
+</details>
+
+<sub>Screenshots are from the <a href="https://usecappuccino.com/demo">live demo</a>, which runs the real product on a fictional company's data.</sub>
 
 ## What I built
 
